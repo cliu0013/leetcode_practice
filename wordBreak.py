@@ -5,6 +5,7 @@ class Solution(object):
         :type wordDict: List[str]
         :rtype: bool
         """
+        # O(n^2), O(n)
         dp = [True]*(len(s) + 1)
         words = set(wordDict)
         for i in range(1, len(s)+1):
