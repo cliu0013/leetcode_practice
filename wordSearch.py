@@ -5,49 +5,25 @@ class Solution(object):
         :type word: str
         :rtype: bool
         """
+
+        m, n = len(board), len(board[0])
+        seen = [[False]*(n) for _ in range(m)]
         
-        if len(board) == 0:
-            return False
-        
-        m = len(board)
-        n = len(board[0])
-        
-        
-        
-        padded_board = [[""]*(n+2) for _ in range(m+2)]
-        seen = [[False]*(n+2) for _ in range(m+2)]
-        
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                padded_board[i][j] = board[i-1][j-1]
-        print(padded_board)
-        length = len(word)
-        
-        def check(pos, idx):
-            x, y = pos[0], pos[1]
-            if padded_board[x][y] != word[idx] or seen[x][y] == True:
+        def dfs(x, y, idx):
+            if board[x][y] != word[idx] or seen[x][y] == True:
                 return False
-            if padded_board[x][y] == word[idx] and idx == len(word) - 1:
-                return True    
-                
+            if idx == len(word) - 1:
+                return True
+              
             seen[x][y] = True
-            if padded_board[x][y] == word[idx]:
-                for i in range(x - 1, x + 2):
-                    if check([i, y], idx + 1):
-                        return True
-                for j in range(y - 1, y + 2):
-                    if check([x, j], idx + 1):
-                        return True
+            hor, ver = range(max(0, x - 1), min(x + 2, m)), range(max(0, y - 1), min(y + 2, n))
+            if any(dfs(i , y , idx + 1) for i in hor) or any(dfs(x , j , idx + 1) for j in ver):
+                return True
                 
             seen[x][y] = False
             return False
-        
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                if check([i, j], 0):
-                    return True
                 
-        return False
+        return any(dfs(i , j , 0) for i in range(m) for j in range(n))
             
         
         
