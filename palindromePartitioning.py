@@ -42,5 +42,6 @@ class Solution(object):
                 bt(P, idx - 1, True)
             
         bt([s[-1]], n-2)
+        # github test
         return res
                 
