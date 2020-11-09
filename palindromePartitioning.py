@@ -6,42 +6,26 @@ class Solution(object):
         """
         n = len(s)
         res = []
+        seen = set()
         
         def isPalindrome(word):
-            for i in range(len(word)//2):
-                if word[i] != word[-i - 1]:
-                    return False
-            return True
+            if word == word[::-1]: return True
+            return False
         
         def bt(P, idx = n - 1, valid = True):
-            if idx == -1 and valid:
-                res.append(P)
+            if idx == -1:
+                if valid: res.append(P)
                 return
-            elif idx == -1:
-                return
-            cur = P[0]
-
-            if isPalindrome(s[idx] + cur):
-                tmp = ['']* len(P)
-                for i in range(len(P)):
-                    if i == 0:
-                        tmp[0] = s[idx] + cur
-                    else:
-                        tmp[i] = P[i]
-                bt(tmp, idx - 1, True)
+         
+            key = s[idx] + P[0]
+            if key in seen or isPalindrome(key):
+                seen.add(key)
+                bt([key] + P[1:], idx - 1, True)
             else:
-                tmp = ['']* len(P)
-                for i in range(len(P)):
-                    if i == 0:
-                        tmp[0] = s[idx] + cur
-                    else:
-                        tmp[i] = P[i]
-                bt(tmp, idx - 1, False)
+                bt([key] + P[1:], idx - 1, False)
             if valid:
-                P = [s[idx]] + P
-                bt(P, idx - 1, True)
+                bt([s[idx]] + P, idx - 1, True)
             
         bt([s[-1]], n-2)
-        # github test
         return res
                 
