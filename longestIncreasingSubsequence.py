@@ -10,19 +10,16 @@ class Solution(object):
         if n == 0: return 0
         
         dp = [0] * n
+        
         def bt(idx):
             cur = nums[idx]
             res = 1
             for i in range(idx + 1, n):
-                if cur < nums[i]:
-                    res = max(res, 1 + dp[i])
+                if cur < nums[i]: res = max(res, 1 + dp[i])
             dp[idx] = res
-            
-        i = n - 1
-        while i != -1:
-            bt(i)
-            i -= 1
         
+        for i in range(n): bt(n - i - 1)
+
         return max(dp)
                 
             
