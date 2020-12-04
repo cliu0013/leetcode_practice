@@ -10,6 +10,7 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[List[int]]
         """
+        # O(N), O(N)
         if not root: return []
         stack = []
         stack.append([root, 0])
@@ -31,6 +32,7 @@ class Solution(object):
             res[i] = tree[i]
             if i % 2 == 1:
                 res[i] = res[i][::-1]
+        
         return res
         
         
